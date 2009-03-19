@@ -44,7 +44,7 @@ $inst_f = '';		// template instance of free ip
 //foreach($freeip as $f) echo ("$f[0]\r\n");
 foreach($freeip as $f) 
 //$inst_f .= "f.push(Array(\"{$f[0]}\",\"{$f[1]}\"));\n";
-$inst_f .= "if (isInNet(host,\"$f[0]\",\"$f[2]\")) {return \"DIRECT\";}\n";
+$inst_f .= "if (isInNetEx(host,\"$f[0]\",\"$f[2]\")) {return \"DIRECT\";}\n";
 
 $pac_file = str_replace('$TMPL_PROXY$', $inst_p, $pac_file);
 $pac_file = str_replace('$TMPL_FREEIP$', $inst_f, $pac_file);
