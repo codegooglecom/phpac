@@ -16,6 +16,7 @@
 $config['proxy_file'] = "proxy.txt";
 $config['proxy_checked_file'] = "plcheck.txt";
 $config['proxypac_file'] = "proxy.pac";
+$config['proxypac_file_ipv6'] = "proxy_ipv6.pac";
 
 // where to get the proxy lists from internet
 $config['proxy_lists_url'][] = "http://proxy.ipcn.org/proxylist.html";
@@ -28,6 +29,7 @@ $config['free_ip_url'] = 'http://netsupport.tsinghua.edu.cn/mfdzb/freeip.htm';
 
 // pac template
 $config['pac_template_file'] = 'proxy_pac_template.txt';
+$config['pac_template_file_ipv6'] = 'proxy_pac_template_ipv6.txt';
 
 // free ip list
 $config['freeip_file'] = 'freeip.txt';
