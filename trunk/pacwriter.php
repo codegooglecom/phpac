@@ -18,6 +18,7 @@ include_once "common.inc.php";
 $proxies = get_proxy_from_string(file_get_contents($config['proxy_checked_file']));
 $freeips = get_free_ip_from_string(file_get_contents($config['free_ip_url']));
 $pac_file = file_get_contents($config['pac_template_file']);
+$pac_file_ipv6 = file_get_contents($config['pac_template_file_ipv6']);
 $freeip_file = file($config['freeip_file']);
 
 /*echo ($freeip_file[0]);
@@ -41,18 +42,28 @@ foreach($proxies as $proxy) $inst_p .= "\"PROXY $proxy;\"+\n";
 $inst_p .= "\"DIRECT\";\n";
 
 $inst_f = '';		// template instance of free ip
+$inst_f_ipv6 = '';
 //foreach($freeip as $f) echo ("$f[0]\r\n");
-foreach($freeip as $f) 
-//$inst_f .= "f.push(Array(\"{$f[0]}\",\"{$f[1]}\"));\n";
-$inst_f .= "if (isInNetEx(host,\"$f[0]\",\"$f[2]\")) {return \"DIRECT\";}\n";
-
+foreach($freeip as $f)
+{
+    //$inst_f .= "f.push(Array(\"{$f[0]}\",\"{$f[1]}\"));\n";
+    $inst_f .= "if (isInNet(host,\"$f[0]\",\"$f[2]\")) {return \"DIRECT\";}\n";
+    $inst_f_ipv6 .= "if (isInNetEx(host,\"$f[0]\",\"$f[2]\")) {return \"DIRECT\";}\n";
+}
 $pac_file = str_replace('$TMPL_PROXY$', $inst_p, $pac_file);
 $pac_file = str_replace('$TMPL_FREEIP$', $inst_f, $pac_file);
+
+$pac_file_ipv6 = str_replace('$TMPL_PROXY$', $inst_p, $pac_file_ipv6);
+$pac_file_ipv6 = str_replace('$TMPL_FREEIP$', $inst_f_ipv6, $pac_file_ipv6);
 
 $fproxy = fopen($config['proxypac_file'],'w');
 fputs ($fproxy,$pac_file);
 fclose($fproxy);
 
-echo "Done. pac at <a href='http://roar.net9.org/proxy/proxy.pac' target='_blank'>http://roar.net9.org/proxy/proxy.pac</a><br/>";
+$fproxy_ipv6 = fopen($config['proxypac_file_ipv6'],'w');
+fputs ($fproxy_ipv6,$pac_file_ipv6);
+fclose($fproxy_ipv6);
 
+echo "Done. pac at <a href='http://roar.net9.org/proxy/proxy.pac' target='_blank'>http://roar.net9.org/proxy/proxy.pac</a><br/>";
+echo "Done. ipv6 pac at <a href='http://roar.net9.org/proxy/proxy_ipv6.pac' target='_blank'>http://roar.net9.org/proxy/proxy_ipv6.pac</a><br/>";
 ?>

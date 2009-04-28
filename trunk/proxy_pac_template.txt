@@ -2,8 +2,8 @@ function FindProxyForURL(url, host)
 {
 var proxy =
 $TMPL_PROXY$
-if (!isResolvableEx(host)) { return proxy;}
-if (isInNetEx(host,"127.0.0.1","255.255.255.255")) {return "DIRECT";}
+if (!isResolvable(host)) { return proxy;}
+if (isInNet(host,"127.0.0.1","255.255.255.255")) {return "DIRECT";}
 $TMPL_FREEIP$
 return proxy;
 }
